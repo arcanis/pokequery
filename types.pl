@@ -1,3 +1,21 @@
+type(normal).
+type(fire).
+type(water).
+type(electric).
+type(grass).
+type(ice).
+type(fighting).
+type(poison).
+type(ground).
+type(flying).
+type(psychic).
+type(bug).
+type(rock).
+type(ghost).
+type(dragon).
+type(dark).
+type(steel).
+
 ratio(normal, rock, 0.5).
 ratio(normal, ghost, 0.0).
 ratio(normal, steel, 0.5).
@@ -63,7 +81,7 @@ ratio(poison, ghost, 0.5).
 ratio(poison, steel, 0.0).
 
 ratio(ground, fire, 2.0).
-ratio(ground, eletric, 2.0).
+ratio(ground, electric, 2.0).
 ratio(ground, grass, 0.5).
 ratio(ground, poison, 2.0).
 ratio(ground, flying, 0.0).
@@ -123,3 +141,5 @@ ratio(steel, electric, 0.5).
 ratio(steel, ice, 2.0).
 ratio(steel, rock, 2.0).
 ratio(steel, steel, 0.5).
+
+ratio(_, _, 1.0).
