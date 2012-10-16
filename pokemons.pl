@@ -509,6 +509,23 @@ pokemon(490, manaphy, [water]).
 pokemon(491, darkrai, [dark]).
 pokemon(492, shaymin, [grass]).
 pokemon(492, shaymin, [grass, flying]).
+pokemon(493, arceus, [normal]).
+pokemon(493, arceus, [fire]).
+pokemon(493, arceus, [water]).
+pokemon(493, arceus, [electric]).
+pokemon(493, arceus, [grass]).
+pokemon(493, arceus, [ice]).
+pokemon(493, arceus, [fighting]).
+pokemon(493, arceus, [poison]).
+pokemon(493, arceus, [ground]).
+pokemon(493, arceus, [flying]).
+pokemon(493, arceus, [psychic]).
+pokemon(493, arceus, [bug]).
+pokemon(493, arceus, [rock]).
+pokemon(493, arceus, [ghost]).
+pokemon(493, arceus, [dragon]).
+pokemon(493, arceus, [dark]).
+pokemon(493, arceus, [steel]).
 pokemon(494, victini, [psychic, fire]).
 pokemon(495, snivy, [grass]).
 pokemon(496, servine, [grass]).
