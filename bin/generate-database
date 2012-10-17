@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+var Url = require( 'url' );
+var Vm = require( 'vm' );
+var Fs = require( 'fs' );
+
+function get( url, callback ) {
+    var urlInfo = Url.parse( url );
+    var protocol = urlInfo.protocol.split( /:/ )[ 0 ];
+    require( protocol ).get( { host : urlInfo.hostname, port : urlInfo.port, path : urlInfo.pathname }, function ( res ) {
+        var buffer = new Buffer( 0 );
+        res.on( 'data', function ( chunk ) { buffer = Buffer.concat( [ buffer, chunk ] ); } );
+        res.on( 'end', function ( ) {
+            var global = { module : { exports : { } } };
+            global.exports = global.module.exports;
+            Vm.runInNewContext( buffer.toString( 'utf8' ), global );
+            callback( global.module.exports );
+        } );
+    } );
+}
+
+get( 'https://raw.github.com/Zarel/Pokemon-Showdown/master/data/typechart.js', function ( data ) {
+    var ratios = { 0 : 1, 1 : 2, 2 : .5, 3 : 0 };
+    var ignore = [ 'brn', 'sandstorm', 'hail', 'frz', 'psn', 'tox' ];
+    var output = Fs.createWriteStream(__dirname + '/../db/types.pl');
+
+    Object.keys( data.BattleTypeChart ).forEach( function ( type ) {
+        output.write('pkdb_type(' + type.toLowerCase( ) + ').\n');
+    } );
+
+    Object.keys( data.BattleTypeChart ).forEach( function ( type ) {
+        var typeInfo = data.BattleTypeChart[ type ];
+        Object.keys( typeInfo.damageTaken ).forEach( function ( otherType ) {
+            if ( ignore.indexOf( otherType ) === - 1 ) {
+                output.write( 'pkdb_type_ratio(' + otherType.toLowerCase( ) + ', ' + type.toLowerCase( ) + ', ' + ratios[ typeInfo.damageTaken[ otherType ] ] + ').\n' );
+            }
+        } );
+    } );
+} );
+
+get( 'https://raw.github.com/Zarel/Pokemon-Showdown/master/data/pokedex.js', function ( data ) {
+    var output = Fs.createWriteStream(__dirname + '/../db/species.pl');
+    var normalize = function ( n ) { return n.replace( /[^a-zA-Z]+/g, '_' ).toLowerCase( ); };
+
+    Object.keys( data.BattlePokedex ).forEach( function ( species ) {
+        var speciesInfo = data.BattlePokedex[ species ];
+        if ( speciesInfo.num > 0 ) {
+            output.write( 'pkdb_species(' + normalize( speciesInfo.species ) + ', [' + speciesInfo.types.join( ', ' ).toLowerCase( ) + ']).\n' );
+        }
+    } );
+} );
