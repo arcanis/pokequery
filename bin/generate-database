@@ -48,4 +48,11 @@ get( 'https://raw.github.com/Zarel/Pokemon-Showdown/master/data/pokedex.js', fun
             output.write( 'pkdb_species(' + normalize( speciesInfo.species ) + ', [' + speciesInfo.types.join( ', ' ).toLowerCase( ) + ']).\n' );
         }
     } );
+
+    Object.keys( data.BattlePokedex ).forEach( function ( species ) {
+        var speciesInfo = data.BattlePokedex[ species ];
+        if ( speciesInfo.num > 0 && speciesInfo.prevo ) {
+            output.write( 'pkdb_evolution(' + normalize( data.BattlePokedex[ speciesInfo.prevo ].species ) + ', ' + normalize( speciesInfo.species ) + ').\n' );
+        }
+    } );
 } );
