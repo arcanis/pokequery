@@ -1,2 +1,3 @@
-:- [db].
+:- [pkdb].
+:- [pktool].
 :- [pklib].
