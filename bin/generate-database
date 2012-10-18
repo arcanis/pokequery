@@ -23,6 +23,7 @@ get( 'https://raw.github.com/Zarel/Pokemon-Showdown/master/data/typechart.js', f
     var ratios = { 0 : 1, 1 : 2, 2 : .5, 3 : 0 };
     var ignore = [ 'brn', 'sandstorm', 'hail', 'frz', 'psn', 'tox' ];
     var output = Fs.createWriteStream(__dirname + '/../db/types.pl');
+    var toFloat = function ( n ) { return n != Math.floor( n ) ? n.toString( ) : n + '.0'; };
 
     Object.keys( data.BattleTypeChart ).forEach( function ( type ) {
         output.write('pkdb_type(' + type.toLowerCase( ) + ').\n');
@@ -32,7 +33,7 @@ get( 'https://raw.github.com/Zarel/Pokemon-Showdown/master/data/typechart.js', f
         var typeInfo = data.BattleTypeChart[ type ];
         Object.keys( typeInfo.damageTaken ).forEach( function ( otherType ) {
             if ( ignore.indexOf( otherType ) === - 1 ) {
-                output.write( 'pkdb_type_ratio(' + otherType.toLowerCase( ) + ', ' + type.toLowerCase( ) + ', ' + ratios[ typeInfo.damageTaken[ otherType ] ] + ').\n' );
+                output.write( 'pkdb_type_ratio(' + otherType.toLowerCase( ) + ', ' + type.toLowerCase( ) + ', ' + toFloat( ratios[ typeInfo.damageTaken[ otherType ] ] ) + ').\n' );
             }
         } );
     } );
