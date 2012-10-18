@@ -1,7 +1,7 @@
 pklib_type_ratio([], _, 1).
 pklib_type_ratio(_, [], 1).
-pklib_type_ratio([Attack | Tail], Defense, Result) :- pklib_type_ratio(Attack, Defense, Temp1), pklib_ratio(Tail, Defense, Temp2), Result is Temp1 * Temp2.
-pklib_type_ratio(Attack, [Defense | Tail], Result) :- pklib_type_ratio(Attack, Defense, Temp1), pklib_ratio(Attack, Tail, Temp2), Result is Temp1 * Temp2.
+pklib_type_ratio([Attack | Tail], Defense, Result) :- pklib_type_ratio(Attack, Defense, Temp1), pklib_type_ratio(Tail, Defense, Temp2), Result is Temp1 * Temp2.
+pklib_type_ratio(Attack, [Defense | Tail], Result) :- pklib_type_ratio(Attack, Defense, Temp1), pklib_type_ratio(Attack, Tail, Temp2), Result is Temp1 * Temp2.
 pklib_type_ratio(Attack, Defense, Result) :- pkdb_type_ratio(Attack, Defense, Result).
 
 pklib_evolutionary_line_root(Species, Result) :- pkdb_species_evolution(Preevolution, Species), pklib_evolutionary_line_root(Preevolution, Result).
