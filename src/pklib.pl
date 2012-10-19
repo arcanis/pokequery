@@ -1,12 +1,12 @@
 pklib_type_ratio([Attack], [Defense], Result) :-
     pkdb_type_ratio(Attack, Defense, Result).
 pklib_type_ratio([Attack | Tail], Defense, Result) :- pkdb_type(Attack),
-    pklib_type_ratio(Attack, Defense, Temp1),
+    pklib_type_ratio([Attack], Defense, Temp1),
     pklib_type_ratio(Tail, Defense, Temp2),
     \+ member(Attack, Tail),
     Result is Temp1 * Temp2.
 pklib_type_ratio(Attack, [Defense | Tail], Result) :- pkdb_type(Defense),
-    pklib_type_ratio(Attack, Defense, Temp1),
+    pklib_type_ratio(Attack, [Defense], Temp1),
     pklib_type_ratio(Attack, Tail, Temp2),
     \+ member(Defense, Tail),
     Result is Temp1 * Temp2.
