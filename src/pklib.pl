@@ -21,12 +21,21 @@ pklib_type_ratio_unroll_defense(Attack, [Defense | Tail], Result) :-
     pklib_type_ratio_unroll_defense(Attack, Tail, Temp2),
     Result is Temp1 * Temp2.
 
-pklib_evolutionary_line_root(Species, Result) :- pkdb_species_evolution(Preevolution, Species), pklib_evolutionary_line_root(Preevolution, Result).
-pklib_evolutionary_line_root(Species, Species) :- \+ pkdb_species_evolution(_, Species).
+pklib_evolutionary_line_root(Species, Result) :-
+    ( pkdb_species_evolution(Preevolution, Species)
+    -> pklib_evolutionary_line_root(Preevolution, Result)
+     ; Result = Species).
 
-pklib_evolutionary_line(Species, Result) :- pklib_evolutionary_line_root(Species, Root), pklib_evolutions(Root, Evolutions), Result = [Root | Evolutions].
+pklib_evolutionary_line(Species, [ Root | Evolutions ]) :-
+    pklib_evolutionary_line_root(Species, Root),
+    pklib_evolutions(Root, Evolutions).
 
-pklib_evolutions(Species, Result) :- pkdb_species_evolution(Species, Evolution), pklib_evolutions(Evolution, Rest), Result = [Evolution | Rest].
-pklib_evolutions(Species, []) :- \+ pkdb_species_evolution(Species, _).
+pklib_evolutions(Species, Result) :-
+    ( pkdb_species_evolution(Species, Evolution)
+    -> Result = [Evolution | PostEvolutions], pklib_evolutions(Evolution, PostEvolutions)
+     ; Result = [] ).
 
-pklib_species_total_base_stats(Species, Result) :- pkdb_species(Species, _), findall(Value, pkdb_species_base_stat(Species, _, Value), Stats), pktool_sum_list(Stats, Result).
+pklib_species_total_base_stats(Species, Result) :-
+    pkdb_species(Species, _),
+    findall(Value, pkdb_species_base_stat(Species, _, Value), Stats),
+    pktool_sum_list(Stats, Result).
