@@ -1,14 +1,26 @@
-pklib_type_ratio([Attack], [Defense], Result) :-
-    pkdb_type_ratio(Attack, Defense, Result).
-pklib_type_ratio([Attack | Tail], Defense, Result) :- pkdb_type(Attack),
-    pklib_type_ratio([Attack], Defense, Temp1),
-    pklib_type_ratio(Tail, Defense, Temp2),
+pklib_max_type_list_length(2).
+
+pklib_type_ratio(Attack, Defense, Result) :-
+    pklib_type_ratio_unroll_attack(Attack, Defense, Result).
+
+pklib_type_ratio_unroll_attack([], _, 1.0).
+pklib_type_ratio_unroll_attack([Attack | Tail], Defense, Result) :-
+    pkdb_type(Attack),
+    pktool_not_member(Attack, Tail),
+    pktool_limit_length([Attack | Tail], 2),
+    pklib_type_ratio_unroll_defense(Attack, Defense, Temp1),
+    pklib_type_ratio_unroll_attack(Tail, Defense, Temp2),
     \+ member(Attack, Tail),
     Result is Temp1 * Temp2.
-pklib_type_ratio(Attack, [Defense | Tail], Result) :- pkdb_type(Defense),
-    pklib_type_ratio(Attack, [Defense], Temp1),
-    pklib_type_ratio(Attack, Tail, Temp2),
-    \+ member(Defense, Tail),
+
+pklib_type_ratio_unroll_defense(_, [], 1.0).
+pklib_type_ratio_unroll_defense(Attack, [Defense | Tail], Result) :-
+    pkdb_type(Defense),
+    pktool_not_member(Defense, Tail),
+    pktool_limit_length([Attack | Tail], 2),
+    pklib_max_type_list_length(MaxTypeListLength), length(Tail, TypeListLength), MaxTypeListLength >= TypeListLength,
+    pkdb_type_ratio(Attack, Defense, Temp1),
+    pklib_type_ratio_unroll_defense(Attack, Tail, Temp2),
     Result is Temp1 * Temp2.
 
 pklib_evolutionary_line_root(Species, Result) :- pkdb_species_evolution(Preevolution, Species), pklib_evolutionary_line_root(Preevolution, Result).
