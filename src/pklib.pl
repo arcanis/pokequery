@@ -8,15 +8,14 @@
 
 :- use_module(library(clpq)).
 
-:- use_module(db/types, []).
-:- use_module(db/species, []).
+:- use_module(src/pkdb, []).
 
 type_ratio(Attack, Defense, Result) :-
     type_ratio_unroll_attack(Attack, Defense, Result).
 
 type_ratio_unroll_attack([], _, 1.0).
 type_ratio_unroll_attack([Attack | Tail], Defense, Result) :-
-    pkdb_type:type_atomic(Attack),
+    pkdb:type_atomic(Attack),
     pktool:not_member(Attack, Tail),
     pktool:limit_length([Attack | Tail], 1),
     type_ratio_unroll_defense(Attack, Defense, Temp1),
@@ -25,16 +24,16 @@ type_ratio_unroll_attack([Attack | Tail], Defense, Result) :-
 
 type_ratio_unroll_defense(_, [], 1.0).
 type_ratio_unroll_defense(Attack, [Defense | Tail], Result) :-
-    pkdb_type:type_atomic(Defense),
+    pkdb:type_atomic(Defense),
     pktool:not_member(Defense, Tail),
     pktool:limit_length([Attack | Tail], 2),
-    pkdb_type:type_ratio(Attack, Defense, Temp1),
+    pkdb:type_ratio(Attack, Defense, Temp1),
     type_ratio_unroll_defense(Attack, Tail, Temp2),
     Result is Temp1 * Temp2.
 
 species_evolutionary_line_root(Species, Result) :-
-    pkdb_species:species_atomic(Species),
-    ( pkdb_species:species_evolution(Preevolution, Species)
+    pkdb:species_atomic(Species),
+    ( pkdb:species_evolution(Preevolution, Species)
     -> species_evolutionary_line_root(Preevolution, Result)
      ; Result = Species).
 
@@ -43,17 +42,17 @@ species_evolutionary_line(Species, [ Root | Evolutions ]) :-
     species_evolutions(Root, Evolutions).
 
 species_evolutions(Species, Result) :-
-    pkdb_species:species_atomic(Species),
-    pkdb_species:species_evolution(Species, Evolution),
+    pkdb:species_atomic(Species),
+    pkdb:species_evolution(Species, Evolution),
     species_evolutions(Evolution, PostEvolution),
     Result = [Evolution | PostEvolution].
 
 species_evolutions(Species, Result) :-
-    pkdb_species:species_atomic(Species),
-    \+ pkdb_species:species_evolution(Species, _),
+    pkdb:species_atomic(Species),
+    \+ pkdb:species_evolution(Species, _),
     Result = [].
 
 species_total_stats(Species, Result) :-
-    pkdb_species:species_atomic(Species),
-    findall(Value, pkdb_species:species_stat(Species, _, Value), Stats),
+    pkdb:species_atomic(Species),
+    findall(Value, pkdb:species_stat(Species, _, Value), Stats),
     pktool:sum_list(Stats, Result).
