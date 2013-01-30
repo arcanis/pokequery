@@ -1,8 +1,8 @@
-# Pokemon prolog
+# ![](http://cdn.bulbagarden.net/upload/thumb/1/1f/Pokedex_FRLG.png/45px-Pokedex_FRLG.png) Pokemon prolog
 
 Because prolog can be awesome when you have to work with databases.
 
-## Installation
+## ![](http://pokemon.neoseeker.com/w/i/pokemon/e/e3/025_Mini_Sprite.png) Installation
 
 You will need [swipl](http://www.swi-prolog.org/) and [node.js](http://nodejs.org/) (for generating databases). Probably git and bash too.
 
@@ -17,7 +17,7 @@ Once you have all of this, just go into your home folder then type the following
 
 You will have access to a new shell in which you will be able to type prolog commands. Pklib and pktools will be already loaded in the environment.
 
-## About Prolog
+## ![](http://pokemon.neoseeker.com/w/i/pokemon/3/39/006_Mini_Sprite.png) About Prolog
 
 ### Backtracking
 
@@ -38,7 +38,7 @@ You will see that prolog has found two possible results for `X` : `a` or `b`.
 
 It is a very useful feature, and it can be intensively used to iterate over almost any data providen by this library.
 
-## Predicates API
+## ![](http://pokemon.neoseeker.com/w/i/pokemon/6/64/018_Mini_Sprite.png) Predicates API
 
 ### pkdb
 
@@ -144,7 +144,7 @@ Pklib is a little library which gives you helper functions for some complex requ
         Result = kyurem_black ;
         Result = kyurem_white ;
 
-## More examples
+## ![](http://pldh.net/media/pokemon/md2/sprite/143.png) More examples
 
 Atk stat of all Eevee's evolutions
 
@@ -154,7 +154,7 @@ SpAtk stat of every fully evolved fire pokemon
 
     ?- pkdb:species_atomic(Species), pkdb:species_type(Species, fire), \+ pkdb:species_evolution(Species, _), pkdb:species_stat(Species, spa, SpAtk).
 
-## Future
+## ![](http://pokejungle.net/wp-content/uploads/2012/05/mini-133.png) Future
 
 - Add moar functions to the API. Any idea of what could be useful ? [Open an issue !](https://github.com/arcanis/trivia.pokemon-prolog/issues/new)
 - Add moves into the database. With their power and precision. Probably some effects too (such as parallizis, burning, etc), but adding more will be hard.
