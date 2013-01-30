@@ -1,2 +1,0 @@
-:- [db/types].
-:- [db/species].
