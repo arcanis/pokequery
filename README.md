@@ -44,105 +44,105 @@ It is a very useful feature, and it can be intensively used to iterate over almo
 
 Pkdb is the main data source. It contains everything about the pokeworld.
 
-- **pkdb:type_atomic(Type)**
+  - **pkdb:type_atomic(Type)**
 
-  Checks if `Type` is a type. It can also be used to backtrack over every type.
+    Checks if `Type` is a type. It can also be used to backtrack over every type.
 
-- **pkdb:type_ratio(Attack, Defense, Result)**
+  - **pkdb:type_ratio(Attack, Defense, Result)**
 
-  Computes the ratio of an attack of type `Attack` over a pokemon of type `Defense`.
+    Computes the ratio of an attack of type `Attack` over a pokemon of type `Defense`.
 
-- **pkdb:species_atomic(Species)**
+  - **pkdb:species_atomic(Species)**
 
-  Checks if `Species` is a pokemon species. It can also be used to backtrack over every pokemon species.
+    Checks if `Species` is a pokemon species. It can also be used to backtrack over every pokemon species.
 
-- **pkdb:species_type(Species, Type)**
+  - **pkdb:species_type(Species, Type)**
 
-  Checks if `Species` is of type `Type`. It can also be used to backtrack over every type of a species, or to get the species of a certain type.
+    Checks if `Species` is of type `Type`. It can also be used to backtrack over every type of a species, or to get the species of a certain type.
 
-- **pkdb:species_evolution(Species, Evolution)**
+  - **pkdb:species_evolution(Species, Evolution)**
 
-  Checks if `Evolution` is the evolution of `Species`. It can also be used to backtrack over every next-stage evolution of a species, or to get the pre-evolution of a species.
+    Checks if `Evolution` is the evolution of `Species`. It can also be used to backtrack over every next-stage evolution of a species, or to get the pre-evolution of a species.
 
-- **pkdb:species_stat(Species, Stat, Value)**
+  - **pkdb:species_stat(Species, Stat, Value)**
 
-  Returns into `Value` the value of the stat `Stat` of the pokemon `Species`.
+    Returns into `Value` the value of the stat `Stat` of the pokemon `Species`.
 
-- **pkdb:stat_atomic(Stat)**
+  - **pkdb:stat_atomic(Stat)**
 
-  Checks if `Stat` is a valid stat name. It can also be used to backtrack over every stat name.
+    Checks if `Stat` is a valid stat name. It can also be used to backtrack over every stat name.
 
-  The current stats are `hp`, `atk`, `def`, `spa` (spe. atk), `spd` (spe. def) and `spe` (speed).
+    The current stats are `hp`, `atk`, `def`, `spa` (spe. atk), `spd` (spe. def) and `spe` (speed).
 
 ### pklib
 
 Pklib is a little library which gives you helper functions for some complex requests.
 
-- **pklib:type_ratio(Attack, Defense, Result)**
+  - **pklib:type_ratio(Attack, Defense, Result)**
 
-  This predicate will compute into `Result` the ratio of an attack of type `Attack` over a pokemon of type `Defense`.
+    This predicate will compute into `Result` the ratio of an attack of type `Attack` over a pokemon of type `Defense`.
 
-  As opposed to `pkdb:type_ratio/3`, this function accepts lists as parameter (to deal with composite defense type).
+    As opposed to `pkdb:type_ratio/3`, this function accepts lists as parameter (to deal with composite defense type).
 
-  Currently `Defense` cannot have more than two items, and `Attack` a single one.
+    Currently `Defense` cannot have more than two items, and `Attack` a single one.
 
-  **Example**
+    **Example**
 
-      ?- pklib:type_ratio(X, [water, flying], Result), Result >= 2.0.
-      X = [electric],
-      Result = 4.0 ;
-      X = [rock],
-      Result = 2.0 ;
+        ?- pklib:type_ratio(X, [water, flying], Result), Result >= 2.0.
+        X = [electric],
+        Result = 4.0 ;
+        X = [rock],
+        Result = 2.0 ;
 
-- **pklib:species_evolutionary_line_root(Species, Result)**
+  - **pklib:species_evolutionary_line_root(Species, Result)**
 
-  This predicate will return into `Result` the base species of the evolutionary line `Species`.
+    This predicate will return into `Result` the base species of the evolutionary line `Species`.
 
-  **Example**
+    **Example**
 
-      ?- pklib:species_evolutionary_line_root(ivysaur, X).
-      X = bulbasaur.
+        ?- pklib:species_evolutionary_line_root(ivysaur, X).
+        X = bulbasaur.
 
-- **pklib:species_evolutionary_line(Species, Result)**
+  - **pklib:species_evolutionary_line(Species, Result)**
 
-  This predicate will return into `Result` the entire evolutionary line of `Species`.
+    This predicate will return into `Result` the entire evolutionary line of `Species`.
 
-  It also works with branched evolutionary lines.
+    It also works with branched evolutionary lines.
 
-  **Example**
+    **Example**
 
-      ?- pklib:species_evolutionary_line(cascoon, X).
-      X = [wurmple, silcoon, beautifly] ;
-      X = [wurmple, cascoon, dustox] ;
+        ?- pklib:species_evolutionary_line(cascoon, X).
+        X = [wurmple, silcoon, beautifly] ;
+        X = [wurmple, cascoon, dustox] ;
 
-- **pklib:species_evolutions(Species, Result)**
+  - **pklib:species_evolutions(Species, Result)**
 
-  This predicate will return into `Result` the possible evolutions of `Species`.
+    This predicate will return into `Result` the possible evolutions of `Species`.
 
-  It also works with branched evolutionary lines.
+    It also works with branched evolutionary lines.
 
-  **Example**
+    **Example**
 
-      ?- pklib:species_evolutions(wurmple, X).
-      X = [silcoon, beautifly] ;
-      X = [cascoon, dustox] ;
+        ?- pklib:species_evolutions(wurmple, X).
+        X = [silcoon, beautifly] ;
+        X = [cascoon, dustox] ;
 
-      ?- pklib:species_evolutions(cascoon, X).
-      X = [dustox] ;
+        ?- pklib:species_evolutions(cascoon, X).
+        X = [dustox] ;
 
-- **pklib:species_total_stats(Species, Result)**
+  - **pklib:species_total_stats(Species, Result)**
 
-  This predicate will compute into `Result` the sum of all the stats of a species.
+    This predicate will compute into `Result` the sum of all the stats of a species.
 
-  **Example**
+    **Example**
 
-      ?- pklib:species_total_stats(Result, 200).
-      Result = magikarp ;
-      Result = feebas ;
+        ?- pklib:species_total_stats(Result, 200).
+        Result = magikarp ;
+        Result = feebas ;
 
-      ?- pklib:species_total_stats(Result, 700).
-      Result = kyurem_black ;
-      Result = kyurem_white ;
+        ?- pklib:species_total_stats(Result, 700).
+        Result = kyurem_black ;
+        Result = kyurem_white ;
 
 ## More examples
 
