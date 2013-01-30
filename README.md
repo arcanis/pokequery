@@ -156,7 +156,7 @@ SpAtk stat of every fully evolved fire pokemon
 
 ## Future
 
-- Add moar functions to the API. Any idea of what could be useful ? Open an issue !
+- Add moar functions to the API. Any idea of what could be useful ? [Open an issue !](https://github.com/arcanis/trivia.pokemon-prolog/issues/new)
 - Add moves into the database. With their power and precision. Probably some effects too (such as parallizis, burning, etc), but adding more will be hard.
 - Write a script to compute an optimal team when battling a specific other team (I never really played 'hardcore', so I will need help of smogon players on this).
 - If you have nice examples, open an issue and I will add it in the section (and credit you :).
