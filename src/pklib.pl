@@ -18,7 +18,7 @@ type_ratio_unroll_attack([], _, 1.0).
 type_ratio_unroll_attack([Attack | Tail], Defense, Result) :-
     pkdb_type:type_atomic(Attack),
     pktool:not_member(Attack, Tail),
-    pktool:limit_length([Attack | Tail], 2),
+    pktool:limit_length([Attack | Tail], 1),
     type_ratio_unroll_defense(Attack, Defense, Temp1),
     type_ratio_unroll_attack(Tail, Defense, Temp2),
     Result is Temp1 * Temp2.
@@ -44,9 +44,14 @@ species_evolutionary_line(Species, [ Root | Evolutions ]) :-
 
 species_evolutions(Species, Result) :-
     pkdb_species:species_atomic(Species),
-    ( pkdb_species:species_evolution(Species, Evolution)
-    -> Result = [Evolution | PostEvolutions], species_evolutions(Evolution, PostEvolutions)
-     ; Result = [] ).
+    pkdb_species:species_evolution(Species, Evolution),
+    species_evolutions(Evolution, PostEvolution),
+    Result = [Evolution | PostEvolution].
+
+species_evolutions(Species, Result) :-
+    pkdb_species:species_atomic(Species),
+    \+ pkdb_species:species_evolution(Species, _),
+    Result = [].
 
 species_total_stats(Species, Result) :-
     pkdb_species:species_atomic(Species),
